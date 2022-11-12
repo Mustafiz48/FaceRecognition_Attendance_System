@@ -10,14 +10,12 @@ from PIL import ImageTk, Image
 
 class Trainer:
     def __init__(self):
-        self.haarcasecade_path = "haarcascade_frontalface_default.xml"
         self.trainimage_path = "TrainingImage"
         self.trainimagelabel_path = "TrainingImageLabel/Trainer.yml"
 
     # Train Image
     def train_model(self):
         recognizer = cv2.face.LBPHFaceRecognizer_create()
-        detector = cv2.CascadeClassifier(self.haarcasecade_path)
         faces, id_ = self.get_images_and_labels(self.trainimage_path)
         recognizer.train(faces, np.array(id_))
         with open(self.trainimagelabel_path, 'w+') as f:
@@ -25,7 +23,6 @@ class Trainer:
         print("Image Trained successfully")
 
     def get_images_and_labels(self, path):
-        # image_path = [os.path.join(path, f) for d in os.listdir(path) for f in d]
         new_dir = [os.path.join(path, d) for d in os.listdir(path)]
         image_path = [
             os.path.join(new_dir[i], f)
